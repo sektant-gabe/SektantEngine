@@ -1,12 +1,7 @@
-# Template For C++ Projects
+# Sektant Engine 
 
 ![C++](https://img.shields.io/badge/C%2B%2B-11%2F14%2F17%2F20%2F23-blue)
 ![License](https://img.shields.io/github/license/franneck94/CppProjectTemplate)
-![Linux Build](https://github.com/franneck94/CppProjectTemplate/workflows/Ubuntu%20CI%20Test/badge.svg)
-
-This is a template for C++ projects. What you get:
-
-This is a template for Imgui C++ projects. What you get:
 
 - Library and executable code separated in distinct folders.
 - Use of modern CMake for building and compiling.
@@ -36,7 +31,7 @@ This is a template for Imgui C++ projects. What you get:
 │   ├── ...
 ├── src
 │   ├── CMakesLists.txt
-└── ─── render/...
+└── ─── Core/...
 ```
 
 Library code goes into [src/](src/), main program code in [app/](app).
@@ -54,7 +49,7 @@ Library code goes into [src/](src/), main program code in [app/](app).
 First, clone this repo and do the preliminary work:
 
 ```shell
-git clone --recursive https://github.com/franneck94/ImGuiProjectTemplate
+git clone --recursive https://github.com/sektant-gabe/SektantEngine
 mkdir build
 ```
 
