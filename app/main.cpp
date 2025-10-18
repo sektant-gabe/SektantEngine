@@ -2,14 +2,15 @@
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 #include "imgui_impl_opengl3_loader.h"
+#include <cstdio>
 
 #if defined(IMGUI_IMPL_OPENGL_ES2)
 #include <GLES2/gl2.h>
 #endif
 #include <GLFW/glfw3.h>
 
-#include "cycle.h"
-#include "render.h"
+#include "Entrypoint.h"
+#include "GameLoop.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) &&                                 \
     !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
@@ -51,8 +52,8 @@ int main(int, char **)
 #endif
 
     // Create window with graphics context
-    auto *window = glfwCreateWindow(static_cast<std::int32_t>(WINDOW_WIDTH),
-                                    static_cast<std::int32_t>(WINDOW_HEIGHT),
+    auto *window = glfwCreateWindow(static_cast<int32_t>(WINDOW_WIDTH),
+                                    static_cast<int32_t>(WINDOW_HEIGHT),
                                     "Gui",
                                     nullptr,
                                     nullptr);
