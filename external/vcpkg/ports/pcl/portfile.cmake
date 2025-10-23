@@ -1,23 +1,29 @@
+vcpkg_download_distfile(BOOST_1_89_0_COMPAT_PATCH
+    URLS https://github.com/PointCloudLibrary/pcl/commit/99333442ac63971297b4cdd05fab9d2bd2ff57a4.patch?full_index=1
+    FILENAME PointCloudLibrary-pcl-boost-1-89-0-compat.patch
+    SHA512 2fefaeaeda9fe423b481cddf4de85eff58418286f24f065be8610216e87d8faeb869406b72b3a7158abd22d17e25742b54f6b9eb3c81f82a1718f938bb8e0d26
+)
+
 vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO PointCloudLibrary/pcl
     REF "pcl-${VERSION}"
-    SHA512 0ea388d5f4ccdc1e5fcace6a1e1b90843be1a4ed2e1d37cc3c80d8abc0e868324d8f9da80513f1cb3f16738e00586f29cac151ce0d501645514f280aee8b1d7f
+    SHA512 ca9e742bc24b38f31c42c9ea08e19054e18d045f487269b64a7b831dada89936445d90a5b46870d8c24c2d25b33a59df2d904fe7e51bc0b231317cdb319951e9
     HEAD_REF master
     PATCHES
-        add-gcc-version-check.patch
         fix-check-sse.patch
         fix-numeric-literals-flag.patch
-        pcl_config.patch
-        pcl_utils.patch
+        install-layout.patch
         install-examples.patch
-        no-absolute.patch
         fix-clang-cl.patch
-        fix-pcl-exports.patch
-        fix-kinfu.patch
+        "${BOOST_1_89_0_COMPAT_PATCH}"
 )
 
 string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "dynamic" PCL_SHARED_LIBS)
+
+if(VCPKG_TARGET_ARCHITECTURE STREQUAL "arm64" OR VCPKG_TARGET_ARCHITECTURE STREQUAL "arm")
+	set(PCL_DONT_TRY_SSE "-DPCL_ENABLE_SSE=OFF")
+endif()
 
 vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
     FEATURES
@@ -26,6 +32,7 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
         cuda            BUILD_CUDA
         cuda            BUILD_GPU
         examples        BUILD_examples
+        examples        VCPKG_LOCK_FIND_PACKAGE_cJSON
         libusb          WITH_LIBUSB
         opengl          WITH_OPENGL
         openni2         WITH_OPENNI2
@@ -33,6 +40,7 @@ vcpkg_check_features(OUT_FEATURE_OPTIONS FEATURE_OPTIONS
         qt              WITH_QT
         simulation      BUILD_simulation
         surface-on-nurbs BUILD_surface_on_nurbs
+        surface-on-nurbs VCPKG_LOCK_FIND_PACKAGE_ZLIB
         tools           BUILD_tools
         visualization   WITH_VTK
         visualization   BUILD_visualization
@@ -51,17 +59,20 @@ vcpkg_cmake_configure(
         -DPCL_BUILD_WITH_QHULL_DYNAMIC_LINKING_WIN32=${PCL_SHARED_LIBS}
         -DPCL_SHARED_LIBS=${PCL_SHARED_LIBS}
         -DPCL_ENABLE_MARCHNATIVE=OFF
+        ${PCL_DONT_TRY_SSE}
+        -DUSE_HOMEBREW_FALLBACK=OFF
         # WITH
         -DWITH_DAVIDSDK=OFF
         -DWITH_DOCS=OFF
         -DWITH_DSSDK=OFF
         -DWITH_ENSENSO=OFF
-        -DWITH_OPENMP=OFF
         -DWITH_OPENNI=OFF
         -DWITH_PNG=ON
         -DWITH_QHULL=ON
         -DWITH_RSSDK=OFF
         -DWITH_RSSDK2=OFF
+        # Misc
+        -DVCPKG_LOCK_FIND_PACKAGE_ClangFormat=OFF
         # FEATURES
         ${FEATURE_OPTIONS}
     OPTIONS_DEBUG
@@ -72,6 +83,10 @@ vcpkg_cmake_configure(
         PCL_BUILD_WITH_FLANN_DYNAMIC_LINKING_WIN32
         PCL_BUILD_WITH_QHULL_DYNAMIC_LINKING_WIN32
 )
+
+if(NOT EXISTS "${CURRENT_INSTALLED_DIR}/lib/pkgconfig/vtk.pc")
+    file(REMOVE "${CURRENT_PACKAGE_DIR}/lib/pkgconfig/pcl_gpu_kinfu_large_scale.pc" "${CURRENT_PACKAGE_DIR}/debug/lib/pkgconfig/pcl_gpu_kinfu_large_scale.pc")
+endif()
 
 vcpkg_cmake_install()
 vcpkg_cmake_config_fixup()

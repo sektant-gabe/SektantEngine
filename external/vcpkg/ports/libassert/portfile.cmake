@@ -2,36 +2,29 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO jeremy-rifkin/libassert
     REF "v${VERSION}"
-    SHA512 beba94e033f7e43c84123736a32725a333c915392d5dc57c26a63f832a507564d79f290a151cb136de8bded3d8d343dad3c4bf2efec9977d878df3c9a8677554
+    SHA512 877f7ddac1b3ffa77d6c30b9aa4c6bf2a32bd3089b5348b75b4f52ef474cf6ee1f754bab5f0396e3ee3df83f9a438a5154c0fefce683c479b2f3a8adaef3c0a7
     HEAD_REF main
-    PATCHES
-        runtime_destination.patch
-        magic-enum.patch
-        include-dir.patch
-        cpptrace-0.4.1.patch
 )
 
-string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "static" BUILD_STATIC)
+string(COMPARE EQUAL "${VCPKG_LIBRARY_LINKAGE}" "dynamic" BUILD_SHARED)
 
 vcpkg_cmake_configure(
     SOURCE_PATH "${SOURCE_PATH}"
     OPTIONS
-        -DASSERT_USE_EXTERNAL_CPPTRACE=ON
-        -DASSERT_STATIC=${BUILD_STATIC}
+      -DLIBASSERT_USE_EXTERNAL_CPPTRACE=ON
+      -DLIBASSERT_USE_EXTERNAL_MAGIC_ENUM=ON
+      -DLIBASSERT_BUILD_SHARED=${BUILD_SHARED}
 )
 
 vcpkg_cmake_install()
 vcpkg_cmake_config_fixup(
-    PACKAGE_NAME assert
-    CONFIG_PATH lib/cmake/assert
+    PACKAGE_NAME libassert
+    CONFIG_PATH lib/cmake/libassert
 )
 vcpkg_copy_pdbs()
 
-file(APPEND "${CURRENT_PACKAGES_DIR}/share/assert/assert-config.cmake" "include(CMakeFindDependencyMacro)
-find_dependency(magic_enum)
-find_dependency(cpptrace)")
+file(APPEND "${CURRENT_PACKAGES_DIR}/share/libassert/libassert-config.cmake" "find_dependency(magic_enum)")
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/include")
-file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/include/assert/third_party")
 
 vcpkg_install_copyright(FILE_LIST "${SOURCE_PATH}/LICENSE")

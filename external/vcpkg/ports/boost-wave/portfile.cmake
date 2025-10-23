@@ -4,16 +4,12 @@ vcpkg_from_github(
     OUT_SOURCE_PATH SOURCE_PATH
     REPO boostorg/wave
     REF boost-${VERSION}
-    SHA512 eb39127042795c21ccfb6e92edde0feaeea1e5cc79305a5993104fadba02dc61f841d9ea7b1dbc6e0ea702377e6f563ee623c0ddd99eb5dd729105866b03e766
+    SHA512 1451354a6b90d5f18381ee6687e0dd5448a8b546a54fc1e1070bcaa3c9bc1f5a9fc857431235cff27d536bab91762b174a94dd809fd084f0aef54a067799afe4
     HEAD_REF master
 )
 
-vcpkg_replace_string("${SOURCE_PATH}/build/Jamfile.v2"
-    "import ../../config/checks/config"
-    "import ../config/checks/config"
+set(FEATURE_OPTIONS "")
+boost_configure_and_install(
+    SOURCE_PATH "${SOURCE_PATH}"
+    OPTIONS ${FEATURE_OPTIONS}
 )
-file(COPY "${CURRENT_INSTALLED_DIR}/share/boost-config/checks" DESTINATION "${SOURCE_PATH}/config")
-include(${CURRENT_HOST_INSTALLED_DIR}/share/boost-build/boost-modular-build.cmake)
-boost_modular_build(SOURCE_PATH ${SOURCE_PATH})
-include(${CURRENT_INSTALLED_DIR}/share/boost-vcpkg-helpers/boost-modular-headers.cmake)
-boost_modular_headers(SOURCE_PATH ${SOURCE_PATH})

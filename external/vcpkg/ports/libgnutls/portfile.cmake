@@ -5,12 +5,13 @@ vcpkg_download_distfile(tarball
         "https://mirrors.dotsrc.org/gcrypt/gnutls/v${GNUTLS_BRANCH}/gnutls-${VERSION}.tar.xz"
         "https://www.mirrorservice.org/sites/ftp.gnupg.org/gcrypt/gnutls/v${GNUTLS_BRANCH}/gnutls-${VERSION}.tar.xz"
     FILENAME "gnutls-${VERSION}.tar.xz"
-    SHA512 74eddba01ce4c2ffdca781c85db3bb52c85f1db3c09813ee2b8ceea0608f92ca3912fd9266f55deb36a8ba4d01802895ca5d5d219e7d9caec45e1a8534e45a84
+    SHA512 d453bd4527af95cb3905ce8753ceafd969e3f442ad1d148544a233ebf13285b999930553a805a0511293cc25390bb6a040260df5544a7c55019640f920ad3d92
 )
 vcpkg_extract_source_archive(SOURCE_PATH
     ARCHIVE "${tarball}"
     SOURCE_BASE "v${VERSION}"
     PATCHES
+        ccasflags.patch
         use-gmp-pkgconfig.patch
 )
 
@@ -30,20 +31,16 @@ if(VCPKG_TARGET_IS_WINDOWS)
     vcpkg_list(APPEND options "LIBS=\$LIBS -liconv -lcharset") # for libunistring
 endif()
 
-if(VCPKG_CROSSCOMPILING)
-    vcpkg_cmake_get_vars(cmake_vars_file)
-    include("${cmake_vars_file}")
-    set(ccas "${VCPKG_DETECTED_CMAKE_C_COMPILER}")
-    cmake_path(GET ccas PARENT_PATH ccas_dir)
-    vcpkg_add_to_path("${ccas_dir}")
-    cmake_path(GET ccas FILENAME ccas_command)
-    vcpkg_list(APPEND options "CCAS=${ccas_command}")
+if(VCPKG_LIBRARY_LINKAGE STREQUAL "static")
+    vcpkg_list(APPEND options "ac_cv_dlopen_soname_works=no") # ensure vcpkg libs
 endif()
 
 set(ENV{GTKDOCIZE} true) # true, the program
-vcpkg_configure_make(
+set(ENV{YACC} false)     # false, the program - not used here
+
+vcpkg_make_configure(
     SOURCE_PATH "${SOURCE_PATH}"
-    AUTOCONFIG
+    AUTORECONF
     OPTIONS
         --disable-dependency-tracking
         --disable-doc
@@ -53,24 +50,33 @@ vcpkg_configure_make(
         --disable-rpath
         --disable-tests
         --with-brotli=no
+        --with-liboqs=no
         --with-p11-kit=no
         --with-tpm=no
         --with-tpm2=no
+        --with-zlib=link
         --with-zstd=no
         ${options}
-        YACC=false # false, the program - not used here
     OPTIONS_DEBUG
         --disable-tools
 )
-vcpkg_install_make()
+vcpkg_make_install()
 vcpkg_fixup_pkgconfig()
 vcpkg_copy_tool_dependencies("${CURRENT_PACKAGES_DIR}/tools/${PORT}/bin")
 
 file(REMOVE_RECURSE "${CURRENT_PACKAGES_DIR}/debug/share")
 
 vcpkg_install_copyright(
+    COMMENT [[
+The main libraries (libgnutls and libdane) are released under the
+GNU Lesser General Public License version 2.1 or later
+(LGPLv2+, see COPYING.LESSERv2 for the license terms), and
+the gnutls-openssl extra library and the application are under the
+GNU General Public License version 3 or later
+(GPLv3+, see COPYING for the license terms),
+unless otherwise specified in the indivual source files.
+]]
     FILE_LIST
-        "${SOURCE_PATH}/LICENSE"
-        "${SOURCE_PATH}/doc/COPYING"
-        "${SOURCE_PATH}/doc/COPYING.LESSER"
+        "${SOURCE_PATH}/COPYING.LESSERv2"
+        "${SOURCE_PATH}/COPYING"
 )

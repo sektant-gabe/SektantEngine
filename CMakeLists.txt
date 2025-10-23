@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.22)
 project(
     "SektantEngine"
     VERSION 1.0.0
-    LANGUAGES C CXX)
+    LANGUAGES C CXX
+)
 
 # Global CMake variables are set here
 set(CMAKE_CXX_STANDARD 17)
@@ -33,29 +34,29 @@ include(AddGitSubmodule)
 include(Docs)
 include(Tools)
 
-if(ENABLE_WARNINGS)
+if (ENABLE_WARNINGS)
     include(Warnings)
-endif()
+endif ()
 
 add_cmake_format_target()
 add_clang_format_target()
 
-if(ENABLE_SANITIZE_ADDR
-   OR ENABLE_SANITIZE_UNDEF
-   OR ENABLE_SANITIZE_LEAK
-   OR ENABLE_SANITIZE_THREAD)
+if (ENABLE_SANITIZE_ADDR
+    OR ENABLE_SANITIZE_UNDEF
+    OR ENABLE_SANITIZE_LEAK
+    OR ENABLE_SANITIZE_THREAD
+)
     include(Sanitizer)
     add_sanitizer_flags()
-endif()
+endif ()
 
-if(ENABLE_LTO)
+if (ENABLE_LTO)
     include(LTO)
-endif()
+endif ()
 
 # EXTERNAL LIBRARIES
 
-# set (VCPKG_DIR ${CMAKE_SOURCE_DIR}/external/vcpkg)
-# you can set any other vcpkg installation on your system
+# set (VCPKG_DIR ${CMAKE_SOURCE_DIR}/external/vcpkg) you can set any other vcpkg installation on your system
 set(VCPKG_DIR ${CMAKE_SOURCE_DIR}/external/vcpkg)
 include(${VCPKG_DIR}/scripts/buildsystems/vcpkg.cmake)
 
@@ -76,4 +77,5 @@ install(
     TARGETS ${EXECUTABLE_NAME}
     ARCHIVE DESTINATION lib
     LIBRARY DESTINATION lib
-    RUNTIME DESTINATION bin)
+    RUNTIME DESTINATION bin
+)

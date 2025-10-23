@@ -1,0 +1,101 @@
+\chapter{Template For C++ Projects }
+\hypertarget{md_README}{}\label{md_README}\index{Template For C++ Projects@{Template For C++ Projects}}
+\label{md_README_autotoc_md0}%
+\Hypertarget{md_README_autotoc_md0}%
+
+
+  
+
+This is a template for C++ projects. What you get\+:
+
+This is a template for Imgui C++ projects. What you get\+:
+
+
+\begin{DoxyItemize}
+\item Library and executable code separated in distinct folders.
+\item Use of modern CMake for building and compiling.
+\item External libraries\+:
+\begin{DoxyItemize}
+\item All graphical and imgui related libs via Git submodules\+:
+\begin{DoxyItemize}
+\item GLFW, Imgui and Implot
+\end{DoxyItemize}
+\item General purpose libraries via CMake Fetch\+Content\+:
+\begin{DoxyItemize}
+\item \href{https://github.com/nlohmann/json}{\texttt{JSON}}, \href{https://github.com/jarro2783/cxxopts}{\texttt{cxxopts}} and \href{https://github.com/fmtlib/fmt}{\texttt{fmt}}
+\end{DoxyItemize}
+\end{DoxyItemize}
+\item Continuous integration testing with Github Actions and \href{https://pre-commit.com/}{\texttt{pre-\/commit}}
+\item Code documentation with \href{https://doxygen.nl/}{\texttt{Doxygen}} and \href{https://franneck94.github.io/CppProjectTemplate/}{\texttt{Github Pages}}
+\item Tooling\+: Clang-\/\+Format, Cmake-\/\+Format, Clang-\/tidy, Sanitizers
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md1}{}\doxysection{\texorpdfstring{Structure}{Structure}}\label{md_README_autotoc_md1}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\ text}
+\DoxyCodeLine{├──\ CMakeLists.txt}
+\DoxyCodeLine{├──\ app}
+\DoxyCodeLine{│\ \ \ ├──\ CMakesLists.txt}
+\DoxyCodeLine{│\ \ \ └──\ main.cc}
+\DoxyCodeLine{├──\ cmake}
+\DoxyCodeLine{│\ \ \ └──\ cmake\ modules}
+\DoxyCodeLine{├──\ docs}
+\DoxyCodeLine{│\ \ \ ├──\ Doxyfile}
+\DoxyCodeLine{│\ \ \ └──\ html/}
+\DoxyCodeLine{├──\ external}
+\DoxyCodeLine{│\ \ \ ├──\ CMakesLists.txt}
+\DoxyCodeLine{│\ \ \ ├──\ ...}
+\DoxyCodeLine{├──\ src}
+\DoxyCodeLine{│\ \ \ ├──\ CMakesLists.txt}
+\DoxyCodeLine{└──\ ───\ render/...}
+
+\end{DoxyCode}
+
+
+Library code goes into \href{src/}{\texttt{src/}}, main program code in \mbox{[}app/\mbox{]}(app).\hypertarget{md_README_autotoc_md2}{}\doxysection{\texorpdfstring{Software Requirements}{Software Requirements}}\label{md_README_autotoc_md2}
+
+\begin{DoxyItemize}
+\item CMake 3.\+21+
+\item GNU Makefile
+\item Doxygen
+\item VCPKG
+\item MSVC 2017 (or higher), G++9 (or higher), Clang++9 (or higher)
+\end{DoxyItemize}\hypertarget{md_README_autotoc_md3}{}\doxysection{\texorpdfstring{Building}{Building}}\label{md_README_autotoc_md3}
+First, clone this repo and do the preliminary work\+:
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{git\ clone\ -\/-\/recursive\ https://github.com/franneck94/ImGuiProjectTemplate}
+\DoxyCodeLine{mkdir\ build}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item App Executable
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ build}
+\DoxyCodeLine{cmake\ -\/DCMAKE\_BUILD\_TYPE=Release\ ..}
+\DoxyCodeLine{cmake\ -\/-\/build\ .\ -\/-\/config\ Release\ -\/-\/target\ main}
+\DoxyCodeLine{cd\ app}
+\DoxyCodeLine{./main}
+
+\end{DoxyCode}
+
+
+
+\begin{DoxyItemize}
+\item Documentation
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cd\ build}
+\DoxyCodeLine{cmake\ -\/DCMAKE\_BUILD\_TYPE=Debug\ ..}
+\DoxyCodeLine{cmake\ -\/-\/build\ .\ -\/-\/config\ Debug\ -\/-\/target\ docs}
+
+\end{DoxyCode}
+ 
