@@ -9,8 +9,7 @@
 #endif
 #include <GLFW/glfw3.h>
 
-#include "Entrypoint.h"
-#include "GameLoop.h"
+#include "System/Entrypoint.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
@@ -21,7 +20,7 @@ namespace std::filesystem {
 int main(int /*unused*/, char ** /*unused*/)
 {
     // Setup window
-    if (!glfwInit()) { return 1; }
+    if (glfwInit() == 0) { return 1; }
 
     // Decide GL+GLSL versions
 #if defined(IMGUI_IMPL_OPENGL_ES2)

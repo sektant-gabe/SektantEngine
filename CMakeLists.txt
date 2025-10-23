@@ -65,11 +65,16 @@ find_package(glfw3 CONFIG REQUIRED)
 find_package(imgui CONFIG REQUIRED)
 find_package(implot CONFIG REQUIRED)
 find_package(OpenGL REQUIRED)
+find_package(
+    OpenMP
+    COMPONENTS CXX
+    REQUIRED
+)
 
 add_subdirectory(configured)
 add_subdirectory(external)
-add_subdirectory(src)
-add_subdirectory(app)
+add_subdirectory(modules)
+add_subdirectory(sandbox)
 
 # INSTALL TARGETS
 
