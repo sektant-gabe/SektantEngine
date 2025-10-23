@@ -1,4 +1,7 @@
 #pragma once
-#include "Render/Window.h"
+
+namespace SKT {
 
 void GameLoop();
+
+};

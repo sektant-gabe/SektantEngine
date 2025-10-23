@@ -9,13 +9,13 @@
 #endif
 #include <GLFW/glfw3.h>
 
-#include "System/Entrypoint.h"
+#include "SKT/Entrypoint.h"
+#include "SKT/Window.h"
 
 #if defined(_MSC_VER) && (_MSC_VER >= 1900) && !defined(IMGUI_DISABLE_WIN32_FUNCTIONS)
 #pragma comment(lib, "legacy_stdio_definitions")
 #endif
 
-namespace std::filesystem {
 
 int main(int /*unused*/, char ** /*unused*/)
 {
@@ -45,7 +45,7 @@ int main(int /*unused*/, char ** /*unused*/)
 
     // Create window with graphics context
     auto *window = glfwCreateWindow(
-        static_cast<int32_t>(WINDOW_WIDTH), static_cast<int32_t>(WINDOW_HEIGHT), "Gui", nullptr, nullptr);
+        static_cast<int32_t>(SKT::WINDOW_WIDTH), static_cast<int32_t>(SKT::WINDOW_HEIGHT), "Gui", nullptr, nullptr);
     if (window == nullptr) { return 1; }
     glfwMakeContextCurrent(window);
     glfwSwapInterval(1);// Enable vsync
@@ -63,7 +63,7 @@ int main(int /*unused*/, char ** /*unused*/)
     style.Colors[ImGuiCol_TableBorderStrong] = ImVec4(1.0, 1.0, 1.0, 1.0);
     style.Colors[ImGuiCol_TableBorderLight]  = ImVec4(1.0, 1.0, 1.0, 1.0);
 
-    cycle_function(window);
+    SKT::cycle_function(window);
 
     // Cleanup
     ImGui_ImplOpenGL3_Shutdown();
@@ -80,4 +80,3 @@ void glfw_error_callback(int error, const char *description)
 {
     fprintf(stderr, "Glfw Error %d: %s\n", error, description);
 }
-}// namespace std::filesystem

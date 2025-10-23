@@ -1,6 +1,8 @@
-#include "TGAImage.h"
+#include "Render/TGAImage.h"
 #include <cstring>
 #include <iostream>
+
+using namespace SKT;
 
 TGAImage::TGAImage(const int w, const int h, const int bpp) : w(w), h(h), bpp(bpp), data(w * h * bpp, 0) {}
 

@@ -1,5 +1,7 @@
-#include "GameLoop.h"
+#include "SKT/GameLoop.h"
 #include "imgui.h"
+
+namespace SKT {
 
 void GameLoop()
 {
@@ -9,3 +11,4 @@ void GameLoop()
         ImGui::End();
     }
 }
+};// namespace SKT

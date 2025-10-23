@@ -13,7 +13,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Options
-option(ENABLE_WARNINGS "Enable to add warnings to a target." ON)
+option(ENABLE_WARNINGS "Enable to add warnings to a target." OFF)
 option(ENABLE_WARNINGS_AS_ERRORS "Enable to treat warnings as errors." OFF)
 
 option(ENABLE_SANITIZE_ADDR "Enable address sanitize." OFF)
@@ -21,11 +21,11 @@ option(ENABLE_SANITIZE_UNDEF "Enable undefined sanitize." OFF)
 option(ENABLE_SANITIZE_LEAK "Enable leak sanitize (Gcc/Clang only)." OFF)
 option(ENABLE_SANITIZE_THREAD "Enable thread sanitize (Gcc/Clang only)." OFF)
 
-option(ENABLE_CLANG_TIDY "Enable to add clang tidy." ON)
-option(ENABLE_CLANG_FORMAT "Enable to add clang-format." ON)
-option(ENABLE_CMAKE_FORMAT "Enable to add cmake-format." ON)
+option(ENABLE_CLANG_TIDY "Enable to add clang tidy." OFF)
+option(ENABLE_CLANG_FORMAT "Enable to add clang-format." OFF)
+option(ENABLE_CMAKE_FORMAT "Enable to add cmake-format." OFF)
 
-option(ENABLE_LTO "Enable to add Link Time Optimization." ON)
+option(ENABLE_LTO "Enable to add Link Time Optimization." OFF)
 
 # CMAKE MODULES
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/)
