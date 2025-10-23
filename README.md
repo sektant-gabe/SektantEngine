@@ -34,7 +34,7 @@
 └── ─── SKT/...
 ```
 
-Library code goes into [modules/](modules/), main program code in [sandbox/](sandbox).
+Library code goes into [modules/](modules/), engine editor program code in [sandbox/](sandbox).
 
 ## Software Requirements
 
