@@ -53,14 +53,14 @@ git clone --recursive https://github.com/sektant-gabe/SektantEngine
 mkdir build
 ```
 
-- App Executable
+- Sandbox Executable
 
 ```shell
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
-cmake --build . --config Release --target main
-cd app
-./main
+cmake --build . --config Release --target sandbox
+cd sandbox
+./sandbox
 ```
 
 - Documentation
