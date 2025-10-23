@@ -18,7 +18,7 @@
 
 ``` text
 ├── CMakeLists.txt
-├── app
+├── sandbox
 │   ├── CMakesLists.txt
 │   └── main.cc
 ├── cmake
@@ -29,12 +29,12 @@
 ├── external
 │   ├── CMakesLists.txt
 │   ├── ...
-├── src
+├── modules
 │   ├── CMakesLists.txt
-└── ─── Core/...
+└── ─── SKT/...
 ```
 
-Library code goes into [src/](src/), main program code in [app/](app).
+Library code goes into [modules/](modules/), main program code in [sandbox/](sandbox).
 
 ## Software Requirements
 
